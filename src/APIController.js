@@ -31,21 +31,32 @@ export function baseFetch(
     });
 }
 
-export function fetchProducts(setter, id = null) {
+export function fetchProducts(setter, id = null, page = null) {
   if (!user()) return;
 
-  let baseUrl = "";
-  if (!id) baseUrl = "product";
-  else baseUrl = `product/${id}`;
+  let baseUrl = "product";
+  if (id) baseUrl += `/${id}`;
+  if (page) baseUrl += `?page=${page}`;
 
   baseFetch(baseUrl, setter, "GET", {
     Authorization: "Bearer " + user().token,
   });
 }
 
-export function fetchCategories(setter) {
+export function fetchCategories(setter, id = null) {
   if (!user()) return;
-  baseFetch("category", setter, "GET", {
+  let wrapper =
+    id == null
+      ? setter
+      : (cats) => {
+          let fetched = cats.filter((v, i, a) => v.slug == id);
+          if (fetched.length > 0) {
+            setter(fetched[0]);
+          } else {
+            setter({});
+          }
+        };
+  baseFetch("category", wrapper, "GET", {
     Authorization: "Bearer " + user().token,
   });
 }
