@@ -38,7 +38,7 @@ function App() {
           <Route path="/" exact>
             <Home />
           </Route>
-          <Route path="/market" exact>
+          <Route path="/market/:slug?" exact>
             <Marketplace />
           </Route>
           <Route path="/login" exact>
@@ -50,7 +50,7 @@ function App() {
           <Route path="/cart" exact>
             <Cart />
           </Route>
-          <Route path="/product/:id" exact>
+          <Route path="/product/:slug" exact>
             <ProductDetail />
           </Route>
         </Router>

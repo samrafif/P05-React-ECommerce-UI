@@ -272,7 +272,7 @@ const Header = () => {
           >
             <option value="all">All Category</option>
             {categories.map((v, i) => (
-              <option value={v.name} key={i}>
+              <option value={v.slug} key={i}>
                 {v.name}
               </option>
             ))}

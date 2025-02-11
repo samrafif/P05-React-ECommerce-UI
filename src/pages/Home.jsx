@@ -6,7 +6,7 @@ import { FaArrowRight } from "react-icons/fa";
 import "react-horizontal-scrolling-menu/dist/styles.css";
 
 import Product from "../components/Product";
-import { fetchCategories, fetchProducts } from "../APIController";
+import { fetchCategories, fetchProducts, getAssetUrl } from "../APIController";
 import prodSchema from "../productSchema";
 
 const Home = () => {
@@ -47,11 +47,13 @@ const Home = () => {
           */}
         {categories.map((cat, i) => (
           <div>
-            <img
-              className="opacity-75 hover:opacity-100 duration-500"
-              src={"http://127.0.0.1:5000/" + cat.img_url.replaceAll("\\", "/")}
-              alt=""
-            />
+            <a href={"/market/" + cat.slug}>
+              <img
+                className="opacity-75 hover:opacity-100 duration-500"
+                src={getAssetUrl(cat.img_url)}
+                alt=""
+              />
+            </a>
           </div>
         ))}
       </div>
