@@ -10,4 +10,6 @@ export default {
   created_at: "",
   updated_at: "",
   category_name: "",
+  category_slug: "",
+  rating: "0",
 };
