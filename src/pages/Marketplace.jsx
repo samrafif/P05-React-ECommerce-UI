@@ -32,6 +32,7 @@ const Marketplace = () => {
 
   useEffect(() => {
     console.log(page.get("page"));
+    // TODO: Rework to use the new /category/:slug path, rather than fanangling with this shit
     fetchProducts(setProducts, null, page.get("page"));
 
     if (slug) {

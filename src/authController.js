@@ -1,5 +1,7 @@
 import { BASE_URL, BASE_HEADERS } from "./APIController";
 
+// TODO: Add JWT expiary stuff
+
 export function login(params, setUser, setErrors) {
   fetch(`${BASE_URL}/login`, {
     method: "POST",
