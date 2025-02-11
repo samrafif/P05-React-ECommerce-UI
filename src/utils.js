@@ -1,4 +1,6 @@
 import swal from "sweetalert";
+import React from "react";
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 
 export const numberWithCommas = (x) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -23,3 +25,9 @@ export const abomination = (cart, setCart, prodInfo) => {
   }
   setCart(cart);
 };
+
+export function useQuery() {
+  const { search } = useLocation();
+
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+}

@@ -7,7 +7,7 @@ import productSchema from "../productSchema";
 import { numberWithCommas, abomination } from "../utils";
 
 const ProductDetail = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
   const [product, setProd] = useState(productSchema);
   const [cartItems, setCartItems] = useLocalStorageState("items", {
     defaultValue: [],
@@ -34,7 +34,7 @@ const ProductDetail = () => {
   };
 
   useEffect(() => {
-    fetchProducts(setProd, id);
+    fetchProducts(setProd, slug);
   }, []);
 
   useEffect(() => {
@@ -150,7 +150,7 @@ const ProductDetail = () => {
                   className="border border-gray-300 p-2 rounded w-full"
                 >
                   {product.variant.map((v, index) => (
-                    <option key={index} value={v}>
+                    <option key={index} value={index}>
                       {v}
                     </option>
                   ))}
