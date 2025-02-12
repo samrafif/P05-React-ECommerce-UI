@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useLocalStorageState from "use-local-storage-state";
+import { FaStar } from "react-icons/fa";
 
+import Review from "../components/Review";
 import { fetchProducts, getAssetUrl } from "../APIController";
-import productSchema from "../productSchema";
+import { productDetailSchema } from "../productSchema";
 import { numberWithCommas, abomination } from "../utils";
 
 const ProductDetail = () => {
   const { slug } = useParams();
-  const [product, setProd] = useState(productSchema);
+  const [product, setProd] = useState(productDetailSchema);
   const [cartItems, setCartItems] = useLocalStorageState("items", {
     defaultValue: [],
   });
@@ -136,7 +138,13 @@ const ProductDetail = () => {
             ) : (
               <p className="text-red-600 mb-4">Out of Stock</p>
             )}
-
+            <p
+              style={{ color: "orange" }}
+              className="font-bold flex items-center "
+            >
+              <FaStar />
+              {product.rating} ({product.total_reviews})
+            </p>
             {/* Variant Selection Picker */}
             {product.variant && product.variant.length > 0 && (
               <div className="mb-4">
@@ -157,7 +165,6 @@ const ProductDetail = () => {
                 </select>
               </div>
             )}
-
             <button
               onClick={() => {
                 abomination(cartItems, setCartItems, {
@@ -184,7 +191,6 @@ const ProductDetail = () => {
               </svg>
               Add to Cart
             </button>
-
             {/* Expandable Additional Details */}
             <div className="mb-6">
               <div
@@ -214,6 +220,11 @@ const ProductDetail = () => {
                   {expanded ? "Read Less" : "Read More"}
                 </button>
               </p>
+              <div className="flex flex-col gap-4">
+                {product.reviews.map((v, i) => (
+                  <Review review={v} />
+                ))}
+              </div>
             </div>
           </div>
         </div>
