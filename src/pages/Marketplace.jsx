@@ -5,8 +5,15 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 import { GlobalContext } from "../globalContext";
 
+import Header from "../components/Header";
 import Product from "../components/Product";
-import { fetchCategories, fetchProducts, getAssetUrl } from "../APIController";
+import Pagination from "../components/Pagination";
+import {
+  fetchCategories,
+  fetchProducts,
+  fetchProductsByCategory,
+  getAssetUrl,
+} from "../APIController";
 import prodSchema from "../productSchema";
 import { useQuery } from "../utils";
 
@@ -16,7 +23,8 @@ const Marketplace = () => {
 
   const history = useHistory();
   const [products, setProducts] = useState([prodSchema]);
-  const [category, setCategory] = useState({});
+  const [productsMetadata, setProductsMetadata] = useState({});
+  const [category, setCategory] = useState(null);
 
   const [user, setUser] = useLocalStorageState("user", {
     defaultValue: null,
@@ -32,29 +40,49 @@ const Marketplace = () => {
 
   useEffect(() => {
     console.log(page.get("page"));
-    // TODO: Rework to use the new /category/:slug path, rather than fanangling with this shit
-    fetchProducts(setProducts, null, page.get("page"));
+
+    if (!slug)
+      fetchProducts(setProducts, null, page.get("page"), setProductsMetadata);
 
     if (slug) {
       fetchCategories(setCategory, slug);
       setSelectedCat(slug);
+      fetchProductsByCategory(setProducts, slug, null);
     }
   }, []);
 
   return (
     <>
-      {slug != null && (
-        <img
+      <Header />
+      {category != null && (
+        <div
           style={{
+            overflow: "hidden",
             height: 500,
             width: "100%",
-            objectFit: "cover",
-            objectPosition: "50% 50%",
+            position: "relative",
           }}
-          src={getAssetUrl(category.img_url)}
-        />
+        >
+          <div className="mx-96 my-42">
+            <h1 className="text-5xl font-bold text-white">{category.name}</h1>
+            <p className="text-xl text-white py-2">{category.description}</p>
+          </div>
+          <div
+            style={{
+              backgroundImage: "url(" + getAssetUrl(category.img_url) + ")",
+              height: 500,
+              width: "100%",
+              filter: "brightness(0.4)",
+              backgroundPosition: "center",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              zIndex: -1,
+            }}
+          ></div>
+        </div>
       )}
-      <main className="p-5">
+      <main className="p-5 flex flex-col items-center">
         <div className="grid gap-8 grig-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-5">
           {/* TODO: I know i should use providers or whatever, but
             I got no time
@@ -76,6 +104,10 @@ const Marketplace = () => {
               <Product prodInfo={prod} key={i} />
             ))}
         </div>
+        <Pagination
+          pageCount={productsMetadata.totalPages}
+          currentPage={parseInt(page.get("page"))}
+        />
       </main>
     </>
   );

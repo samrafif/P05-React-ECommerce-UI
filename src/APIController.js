@@ -15,7 +15,8 @@ export function baseFetch(
   callback,
   method = "GET",
   headers = {},
-  body = null
+  body = null,
+  metadataCallback = null
 ) {
   fetch(`${BASE_URL}/${path}`, {
     method: method,
@@ -28,15 +29,40 @@ export function baseFetch(
     .then((response) => response.json())
     .then((json) => {
       callback(json.data);
+      if (metadataCallback) metadataCallback(json.metadata);
     });
 }
 
-export function fetchProducts(setter, id = null, page = null) {
+export function fetchProducts(
+  setter,
+  id = null,
+  page = null,
+  metadataCallback = null
+) {
   if (!user()) return;
 
   let baseUrl = "product";
   if (id) baseUrl += `/${id}`;
   if (page) baseUrl += `?page=${page}`;
+
+  baseFetch(
+    baseUrl,
+    setter,
+    "GET",
+    {
+      Authorization: "Bearer " + user().token,
+    },
+    null,
+    metadataCallback
+  );
+}
+
+export function fetchProductsByCategory(setter, category, id = null) {
+  if (!user()) return;
+
+  let baseUrl = "product";
+  if (id) baseUrl += `/${id}`;
+  else baseUrl += `?category=${category}`;
 
   baseFetch(baseUrl, setter, "GET", {
     Authorization: "Bearer " + user().token,
@@ -47,7 +73,10 @@ export function fetchCategories(setter, id = null) {
   if (!user()) return;
   let wrapper =
     id == null
-      ? setter
+      ? (cats) => {
+          setter(cats);
+          console.log(cats);
+        }
       : (cats) => {
           let fetched = cats.filter((v, i, a) => v.slug == id);
           if (fetched.length > 0) {
