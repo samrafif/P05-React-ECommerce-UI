@@ -13,3 +13,33 @@ export default {
   category_slug: "",
   rating: "0",
 };
+
+export const productDetailSchema = {
+  id: 0,
+  name: "",
+  slug: "",
+  description: "",
+  variant: [""],
+  price: 0,
+  stock: 0,
+  rating: "",
+  category_id: 0,
+  img_urls: [""],
+  created_at: "",
+  updated_at: "",
+  category_name: "",
+  category_slug: "",
+  total_reviews: 0,
+  reviews: [
+    {
+      id: 0,
+      user_id: 0,
+      product_id: 0,
+      rating: 0,
+      comment: "",
+      created_at: "",
+      updated_at: "",
+      user_name: "",
+    },
+  ],
+};
