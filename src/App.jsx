@@ -14,6 +14,7 @@ import Header from "./components/Header";
 import HeaderBrand from "./components/HeaderBrand";
 import Cart from "./pages/Cart";
 import ProductDetail from "./pages/ProductDetail";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
   const [user, setUser] = useLocalStorageState("user", {
@@ -31,7 +32,6 @@ function App() {
         {user != null && (
           <>
             <HeaderBrand />
-            <Header />
           </>
         )}
         <Router>
@@ -52,6 +52,9 @@ function App() {
           </Route>
           <Route path="/product/:slug" exact>
             <ProductDetail />
+          </Route>
+          <Route path="/user" exact>
+            <UserProfile />
           </Route>
         </Router>
       </GlobalContext.Provider>

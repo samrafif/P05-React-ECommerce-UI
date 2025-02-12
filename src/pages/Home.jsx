@@ -5,6 +5,7 @@ import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 import { FaArrowRight } from "react-icons/fa";
 import "react-horizontal-scrolling-menu/dist/styles.css";
 
+import Header from "../components/Header";
 import Product from "../components/Product";
 import { fetchCategories, fetchProducts, getAssetUrl } from "../APIController";
 import prodSchema from "../productSchema";
@@ -36,6 +37,7 @@ const Home = () => {
 
   return (
     <>
+      <Header />
       <div className="grid grid-cols-5 grid-rows-2 gap-0">
         {/* TODO: I know i should use providers or whatever, but
             I got no time
