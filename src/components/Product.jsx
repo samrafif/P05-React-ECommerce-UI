@@ -42,7 +42,7 @@ const Product = (props) => {
           </h5>
           <h5
             style={{ color: "orange" }}
-            className="font-bold flex items-center"
+            className="font-bold flex gap-1 items-center"
           >
             {" "}
             <FaStar></FaStar> {props.prodInfo.rating}
