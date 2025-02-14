@@ -125,7 +125,10 @@ const Cart = ({ cartItems }) => {
               Shipping and taxes calculated at checkout.
             </p>
 
-            <button type="button" className="btn-primary w-full py-3 text-lg">
+            <button
+              type="button"
+              className="bg-blue-500 text-white w-full py-3 text-lg"
+            >
               Proceed to Checkout
             </button>
           </div>

@@ -33,12 +33,6 @@ const Marketplace = () => {
   const { selectedCat, query, setSelectedCat } = useContext(GlobalContext);
 
   useEffect(() => {
-    if (user == null) {
-      history.push("/login");
-    }
-  }, [user]);
-
-  useEffect(() => {
     console.log(page.get("page"));
 
     if (!slug)

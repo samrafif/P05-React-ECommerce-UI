@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Marketplace from "./pages/Marketplace";
+import AuthCheck from "./components/AuthCheck";
 import Header from "./components/Header";
 import HeaderBrand from "./components/HeaderBrand";
 import Cart from "./pages/Cart";
@@ -31,30 +32,31 @@ function App() {
       >
         {user != null && (
           <>
-            <HeaderBrand />
+            <HeaderBrand user={user} setUser={setUser} />
           </>
         )}
         <Router>
-          <Route path="/" exact>
-            <Home />
-          </Route>
-          <Route path="/market/:slug?" exact>
-            <Marketplace />
-          </Route>
           <Route path="/login" exact>
             <Login />
           </Route>
           <Route path="/register" exact>
             <Register />
           </Route>
+
+          <Route path="/" exact>
+            <AuthCheck user={user} Component={Home} />
+          </Route>
+          <Route path="/market/:slug?" exact>
+            <AuthCheck user={user} Component={Marketplace} />
+          </Route>
           <Route path="/cart" exact>
-            <Cart />
+            <AuthCheck user={user} Component={Cart} />
           </Route>
           <Route path="/product/:slug" exact>
-            <ProductDetail />
+            <AuthCheck user={user} Component={ProductDetail} />
           </Route>
           <Route path="/user" exact>
-            <UserProfile />
+            <AuthCheck user={user} Component={UserProfile} />
           </Route>
         </Router>
       </GlobalContext.Provider>
