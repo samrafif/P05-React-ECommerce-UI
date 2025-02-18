@@ -16,6 +16,7 @@ import HeaderBrand from "./components/HeaderBrand";
 import Cart from "./pages/Cart";
 import ProductDetail from "./pages/ProductDetail";
 import UserProfile from "./pages/UserProfile";
+import AddAddress from "./pages/AddAdress";
 
 function App() {
   const [user, setUser] = useLocalStorageState("user", {
@@ -57,6 +58,9 @@ function App() {
           </Route>
           <Route path="/user" exact>
             <AuthCheck user={user} Component={UserProfile} />
+          </Route>
+          <Route path="/address" exact>
+            <AuthCheck user={user} Component={AddAddress} />
           </Route>
         </Router>
       </GlobalContext.Provider>

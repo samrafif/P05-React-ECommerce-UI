@@ -16,22 +16,28 @@ export function baseFetch(
   method = "GET",
   headers = {},
   body = null,
-  metadataCallback = null
+  metadataCallback = null,
+  json = true
 ) {
   fetch(`${BASE_URL}/${path}`, {
     method: method,
-    body: body != null ? JSON.stringify(body) : undefined,
+    body: body != null ? (json ? JSON.stringify(body) : body) : undefined,
     headers: {
       ...BASE_HEADERS,
       ...headers,
     },
   })
-    .then((response) => response.json())
+    .then((response) => {
+      // response.text().then((a) => console.log(a));
+      return response.json();
+    })
     .then((json) => {
       callback(json.data);
       if (metadataCallback) metadataCallback(json.metadata);
     });
 }
+
+// TODO: Refactor to use the new fetchWithToken func
 
 export function fetchProducts(
   setter,

@@ -1,10 +1,37 @@
 import React, { useContext, useState } from "react";
-import { FaUser, FaShoppingCart, FaHeart } from "react-icons/fa";
+import { FaUserCircle, FaShoppingCart, FaHeart } from "react-icons/fa";
+import UwU from "../assets/logo_typeset.svg";
 
 import { GlobalContext } from "../globalContext";
+import { getAssetUrl } from "../APIController";
 
-const HeaderBrand = () => {
+const DropdownMenu = ({ setUser }) => {
+  return (
+    <div className="dropdown-menu">
+      <ul>
+        <li onClick={() => setUser(null)}>
+          <a href="#">Logout</a>
+        </li>
+        <li>
+          <a href="/user">Settings</a>
+        </li>
+      </ul>
+    </div>
+  );
+};
+
+const HeaderBrand = ({ user, setUser }) => {
   const { setQuery } = useContext(GlobalContext);
+
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+
+  const handleMouseEnter = () => {
+    setDropdownVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    setDropdownVisible(false);
+  };
 
   return (
     <header className="bg-white">
@@ -13,13 +40,9 @@ const HeaderBrand = () => {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <a href="#" className="-m-1.5 p-1.5">
+          <a href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
-            <img
-              className="h-8 w-auto"
-              src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-              alt=""
-            />
+            <img className="h-24 w-auto" src={UwU} alt="" />
           </a>
         </div>
         <div className="flex lg:hidden">
@@ -51,7 +74,7 @@ const HeaderBrand = () => {
             onChange={(p) => setQuery(p.target.value.toLowerCase())}
           />
         </div>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-6">
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-6 items-center">
           <a href="/cart" className="text-base/6 font-semibold text-gray-900">
             <span className="flex items-center gap-1">
               <FaShoppingCart size={24} />
@@ -62,11 +85,29 @@ const HeaderBrand = () => {
               <FaHeart size={24} />
             </span>
           </a>
-          <a href="#" className="text-base/6 font-semibold text-gray-900">
-            <span className="flex items-center gap-1">
-              <FaUser size={24} />
-            </span>
-          </a>
+
+          <div
+            className="menu"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <a href="/user" className="text-base/6 font-semibold text-gray-900">
+              <span className="flex items-center gap-1">
+                {user.profile_photo ? (
+                  <img
+                    className="w-16 h-16 rounded-full mr-4"
+                    src={getAssetUrl(user.profile_photo)}
+                    style={{ width: "auto", height: "40px" }}
+                    alt=""
+                  />
+                ) : (
+                  <FaUserCircle size={24} />
+                )}
+              </span>
+            </a>
+            {/* <DropdownMenu /> */}
+            {isDropdownVisible && <DropdownMenu setUser={setUser} />}
+          </div>
         </div>
       </nav>
       {/* <div className="lg:hidden" role="dialog" aria-modal="true">

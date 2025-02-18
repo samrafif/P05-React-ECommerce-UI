@@ -1,6 +1,8 @@
 import { BASE_URL, BASE_HEADERS } from "./APIController";
 
 // TODO: Add JWT expiary stuff
+// IMPLEMENTING, INCREMENT THE FOLLOWING COUNTER
+// hoursWasted = 0
 
 export function login(params, setUser, setErrors) {
   fetch(`${BASE_URL}/login`, {
@@ -51,6 +53,7 @@ export function register(params, setUser, setErrors) {
     .then((response) => response.json())
     .then((json) => {
       console.log(json);
+      // Will never error out...probably
       if (json.status == "OK") fetchUser(json.data.token, setUser);
       else {
         let errors = {
@@ -66,7 +69,7 @@ export function register(params, setUser, setErrors) {
     });
 }
 
-function fetchUser(token, callback) {
+export function fetchUser(token, callback) {
   fetch(`${BASE_URL}/user`, {
     method: "GET",
     headers: {
@@ -77,13 +80,26 @@ function fetchUser(token, callback) {
     .then((response) => response.json())
     .then((json) => {
       console.log(json);
-      callback({
-        ...json.data,
-        token: token,
-      });
+      if ((json.status = "OK")) {
+        callback({
+          ...json.data,
+          token: token,
+        });
+      } else callback({ token: null });
     });
 }
 // TODO: Make this whole file into a class, this shit is unacceptable.
 export function user() {
   return JSON.parse(localStorage.getItem("user"));
+}
+
+export function deleteUser() {
+  localStorage.setItem("user", "null");
+}
+
+export function fetchWithToken(callback) {
+  fetchUser(user().token, (data) => {
+    if (data.token) callback(data.token);
+    else deleteUser();
+  });
 }

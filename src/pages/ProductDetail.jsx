@@ -172,7 +172,10 @@ const ProductDetail = () => {
                   variant: selectedVariant,
                 });
               }}
-              className="bg-blue-500 py-4 text-lg flex justify-center w-full mb-6 rounded"
+              style={{
+                cursor: "pointer",
+              }}
+              className="bg-blue-500 text-white py-4 text-lg flex justify-center w-full mb-6 rounded"
               disabled={product.stock === 0}
             >
               <svg

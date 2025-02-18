@@ -24,7 +24,9 @@ const Pagination = ({ pageCount, currentPage }) => {
       {[...Array(pageCount).keys()].map((a, i) => (
         <a
           href={"?page=" + (a + 1)}
-          className={a + 1 == currentPage ? "font-bold" : ""}
+          className={
+            (a + 1 == currentPage) | (!currentPage && a == 0) ? "font-bold" : ""
+          }
           style={{ cursor: "pointer", textDecoration: "underline" }}
         >
           {a + 1}
