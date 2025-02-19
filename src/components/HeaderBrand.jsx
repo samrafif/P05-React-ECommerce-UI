@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { FaUserCircle, FaShoppingCart, FaHeart } from "react-icons/fa";
-import UwU from "../assets/logo_typeset.svg";
+import UwU from "../assets/Frame13.png";
 
 import { GlobalContext } from "../globalContext";
 import { getAssetUrl } from "../APIController";
